@@ -80,6 +80,10 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      */
     @Throws(InvalidOperationException::class, UnsolvableMatrixException::class)
     private fun iterateDown() {
+        if (matrix.size < resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
+            "The matrix is not solvable due to a missmatch between the matrix rank and result vector rank"
+        )
+
         for (i in 0 until matrix.size - 1) {
             // is the next row a multiple of the current row.
             if (matrix[i] / matrix[i + 1]) {
@@ -120,7 +124,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
     /**
      * Inverts the matrix using a unification matrix of the same size as the matrix itself.
      */
-    fun InvertMatrix(): UnificationMatrix {
+    fun invertMatrix(): Array<DoubleArray> {
         if (wasNotSolved) {
             if (matrix.size != matrix[0].size)
                 throw InvalidOperationException("This operation is not valid on the given matrix. Only a square matrix can be inverted")
@@ -128,7 +132,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
             iterateDown()
             normalize()
         }
-        return unificationMatrix
+        return unificationMatrix.data
     }
 }
 
