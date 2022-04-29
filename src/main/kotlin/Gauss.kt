@@ -34,8 +34,14 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      */
     @Throws(InvalidOperationException::class, UnsolvableMatrixException::class)
     fun solve(): DoubleArray {
+
         if (solvingVector == null)
             throw InvalidOperationException("This operation is not valid as no solving vector was provided.")
+
+        if (matrix.size != resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
+            "The matrix is not solvable due to a missmatch between the matrix rank and result vector rank"
+        )
+
         iterateDown()
         iterateUp()
         normalize()
@@ -80,9 +86,6 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      */
     @Throws(InvalidOperationException::class, UnsolvableMatrixException::class)
     private fun iterateDown() {
-        if (matrix.size != resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
-            "The matrix is not solvable due to a missmatch between the matrix rank and result vector rank"
-        )
 
         for (i in 0 until matrix.size - 1) {
             // is the next row a multiple of the current row.

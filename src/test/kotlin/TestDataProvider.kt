@@ -9,7 +9,7 @@ class TestDataProvider {
         private val path: Path = Path.of("src/test/resources/testdata.json")
 
         @Throws(IOException::class)
-        fun findAllData(): Array<Testdata>? {
+        fun findAllData(path: Path = this.path): Array<Testdata>? {
             var json = path.toFile().readText()
             var gson = Gson()
             return gson.fromJson(json, Array<Testdata>::class.java)

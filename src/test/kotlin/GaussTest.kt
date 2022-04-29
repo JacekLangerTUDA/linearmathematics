@@ -1,7 +1,6 @@
 // ktlint-disable no-wildcard-imports
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.math.absoluteValue
 import kotlin.random.Random
@@ -70,8 +69,27 @@ internal class GaussTest {
 
     @Test
     fun testDataFromFile() {
-        var json = Files.readString(Path.of("src/test/resources/testdata.json"))
 
+        var standard = Path.of("src/test/resources/testdata_standard.json")
+        // TODO test inverse
+        // test basic data
+        for (data in TestDataProvider.findAllData(standard)!!) {
+            var solving =
+                DoubleArray(data.solvingVector.size) { i -> data.solvingVector[i].toDouble() }
+            var mat =
+                Array<DoubleArray>(data.matrix.size) { h -> DoubleArray(data.matrix[h].size) { w -> data.matrix[h][w].toDouble() } }
+
+            var gauss = Gauss(mat, solving)
+
+            if (data.resultVector!!.isNotEmpty()) {
+                var res = data.resultVector
+                var sol = gauss.solve()
+                assertContentEquals(res, sol)
+            } else {
+                assertThrows<Exception> { gauss.solve() }
+            }
+        }
+        // test computed data
         for (data in TestDataProvider.findAllData()!!) {
 
             var solving =
