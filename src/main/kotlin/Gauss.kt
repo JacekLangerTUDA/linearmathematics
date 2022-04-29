@@ -4,6 +4,21 @@ import exceptions.UnsolvableMatrixException
 class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
 
     /**
+     * Creates a new Gauss object.
+     */
+    constructor(
+        matrix: Array<IntArray>,
+        solvingVector: DoubleArray?
+    ) : this(matrix.toDoubleMatrix(), solvingVector)
+
+    constructor(matrix: Array<IntArray>, solvingVector: IntArray?) : this(
+        matrix.toDoubleMatrix(),
+        solvingVector.toDoubleArray()
+    )
+
+    constructor(matrix: Array<IntArray>) : this(matrix.toDoubleMatrix(), null)
+
+    /**
      * The result vector. this is a copy of the solving vector.
      */
     private var resultVector: DoubleArray =
@@ -18,6 +33,30 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      * Weather the matrix was solved or not.
      */
     private var wasNotSolved: Boolean = true
+
+    /**
+     * Solves a matrix using the provided vector.
+     * * @param matrix the matrix to solve
+     * @param vector the solving vector
+     * @return a result vector containing the result of the operation
+     */
+    fun solve(matrix: Array<IntArray>, vector: IntArray): DoubleArray {
+        this.matrix =
+            Array<DoubleArray>(matrix.size) { i -> DoubleArray(matrix[i].size) { v -> matrix[i][v].toDouble() } }
+        this.solvingVector = DoubleArray(vector.size) { i -> vector[i].toDouble() }
+
+        return solve()
+    }
+
+    /**
+     * Inverts a matrix.
+     * @return the inverse matrix
+     */
+    fun invertMatrix(matrix: Array<IntArray>): Array<DoubleArray> {
+        this.matrix =
+            Array<DoubleArray>(matrix.size) { i -> DoubleArray(matrix[i].size) { v -> matrix[i][v].toDouble() } }
+        return invertMatrix()
+    }
 
     /**
      * Sets new values for matrix and solving vector and returns the solved vector.
@@ -137,6 +176,15 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
         }
         return unificationMatrix.data
     }
+}
+
+private fun IntArray?.toDoubleArray(): DoubleArray? {
+    return DoubleArray(this!!.size) { i -> this[i].toDouble() }
+}
+
+private fun Array<IntArray>.toDoubleMatrix(): Array<DoubleArray> {
+
+    return Array<DoubleArray>(this.size) { h -> DoubleArray(this[h].size) { w -> this[h][w].toDouble() } }
 }
 
 /**

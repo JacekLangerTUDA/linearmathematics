@@ -1,12 +1,17 @@
 // ktlint-disable no-wildcard-imports
+import exceptions.InvalidOperationException
+import exceptions.UnsolvableMatrixException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.nio.file.Path
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 import kotlin.test.assertContentEquals
+import kotlin.test.assertTrue
 
 internal class GaussTest {
+
+    val STANDARD = Path.of("src/test/resources/testdata_standard.json")
 
     @Test
     fun solve() {
@@ -16,11 +21,6 @@ internal class GaussTest {
         var actual = Gauss(matrix, vector)
         var a = actual.solve()
         assertContentEquals(expected, a)
-    }
-
-    @Test
-    fun invertMatrix() {
-        // TODO(Jack): write test
     }
 
     //    @Test
@@ -70,10 +70,9 @@ internal class GaussTest {
     @Test
     fun testDataFromFile() {
 
-        var standard = Path.of("src/test/resources/testdata_standard.json")
         // TODO test inverse
         // test basic data
-        for (data in TestDataProvider.findAllData(standard)!!) {
+        for (data in TestDataProvider.findAllData(STANDARD)!!) {
             var solving =
                 DoubleArray(data.solvingVector.size) { i -> data.solvingVector[i].toDouble() }
             var mat =
@@ -105,6 +104,20 @@ internal class GaussTest {
                 assertContentEquals(res, sol)
             } else {
                 assertThrows<Exception> { gauss.solve() }
+            }
+        }
+    }
+
+    @Test
+    fun testInverse() {
+        var data = TestDataProvider.findAllData(STANDARD)
+        for (expected in data!!) {
+
+            try {
+                var actual = Gauss(expected.matrix).invertMatrix()
+                assertContentEquals(expected.inverse, actual)
+            } catch (ex: Exception) {
+                assertTrue(ex is UnsolvableMatrixException || ex is InvalidOperationException)
             }
         }
     }
