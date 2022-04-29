@@ -80,7 +80,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      */
     @Throws(InvalidOperationException::class, UnsolvableMatrixException::class)
     private fun iterateDown() {
-        if (matrix.size < resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
+        if (matrix.size != resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
             "The matrix is not solvable due to a missmatch between the matrix rank and result vector rank"
         )
 

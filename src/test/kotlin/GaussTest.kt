@@ -1,5 +1,6 @@
 // ktlint-disable no-wildcard-imports
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.math.absoluteValue
@@ -25,26 +26,30 @@ internal class GaussTest {
 
     //    @Test
     fun testGenerateRandomTestData() {
-        var tests: Array<Testdata> = Array<Testdata>(100) {
+        var tests: Array<Testdata> = Array(100) {
             var height = Random.nextInt(15)
             var width = Random.nextInt(height - 1, height + 1).absoluteValue
 
-            var matrix = Array<DoubleArray>(if (height > 0) height else 0) { h ->
-                DoubleArray(width) { w ->
-                    Random.nextDouble() * Random.nextInt(100)
+            var matrix = Array(if (height > 0) height else 0) { h ->
+                IntArray(width) { w ->
+                    Random.nextInt(-100, 100)
                 }
             }
             var result: DoubleArray?
             var inverse: Array<DoubleArray>?
 
             var solvingVector =
-                DoubleArray(
+                IntArray(
                     Random.nextInt(
                         height - 1,
                         height + 1
                     ).absoluteValue
-                ) { i -> Random.nextDouble() * Random.nextInt(100) }
-            var gauss = Gauss(matrix, solvingVector)
+                ) { i -> Random.nextInt(-100, 100) }
+
+            var solving = DoubleArray(solvingVector.size) { i -> solvingVector[i].toDouble() }
+            var mat =
+                Array<DoubleArray>(matrix.size) { h -> DoubleArray(matrix[h].size) { w -> matrix[h][w].toDouble() } }
+            var gauss = Gauss(mat, solving)
 
             // we don't care what exception is thrown at this point. if there is any exception thrown we assume it's not solvable.
             try {
@@ -68,10 +73,21 @@ internal class GaussTest {
         var json = Files.readString(Path.of("src/test/resources/testdata.json"))
 
         for (data in TestDataProvider.findAllData()!!) {
-            var gauss = Gauss(data.matrix, data.solvingVector)
 
-            assertContentEquals(data.resultVector, gauss.solve())
-            assertContentEquals(data.inverse, gauss.invertMatrix())
+            var solving =
+                DoubleArray(data.solvingVector.size) { i -> data.solvingVector[i].toDouble() }
+            var mat =
+                Array<DoubleArray>(data.matrix.size) { h -> DoubleArray(data.matrix[h].size) { w -> data.matrix[h][w].toDouble() } }
+
+            var gauss = Gauss(mat, solving)
+
+            if (data.resultVector!!.isNotEmpty()) {
+                var res = data.resultVector
+                var sol = gauss.solve()
+                assertContentEquals(res, sol)
+            } else {
+                assertThrows<Exception> { gauss.solve() }
+            }
         }
     }
 }

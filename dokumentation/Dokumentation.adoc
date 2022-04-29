@@ -4,6 +4,7 @@ Jacek Langer <jacek.langer@tu-darmstadt.de>
 :toc:
 :icons: font
 :url-quickref: https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/
+:hide-uri-scheme:
 
 by Jacek Langer
 
@@ -93,6 +94,8 @@ Wird eine Matrix ohne Angabe eines Lösungsvektors gelöst wird eine `InvalidOpe
 Stellt sich beim Lösen einer Matrix fest das es sich um eine unlösbare Matrix handelt wird eine `UnsolvableMatrixException` geworfen.
 Wird eine Matrix angegeben dessen Rang ungleich dem Rang des Lösungsvektors ist wird ebenfalls eine `UnsolvableMatrixException` geworfen.
 
+Weitere Informationen finden sich link:../build/dokka/html/index.html[hier]
+
 === UML-Diagramme
 
 [#Klassendiagramm]
@@ -102,7 +105,7 @@ image::Abbildungen/UML/Gauss-uml.png[Gauss-Klassendiagramm,title="Klassendiagram
 image::Abbildungen/UML/IterateDown.png[title="IterateDown-Methode",alt="iterate down",height=800,width=800]
 
 [#IterateUp]
-image::Abbildungen/UML/IterateUp.png[title="IterateUo-Methode",alt ="iterateUp",height=800,width=800]
+image::Abbildungen/UML/IterateUp.png[title="IterateUp-Methode",alt ="iterateUp",height=800,width=800]
 
 [#Normalize]
 image::Abbildungen/UML/NormalizeMatrix.png[title="Normalize-Methode",alt="normalize",height=800,width=800]
@@ -118,6 +121,9 @@ image::Abbildungen/UML/NormalizeMatrix.png[title="Normalize-Methode",alt="normal
 |Kotlin| 1.6.2
 |Java| 17
 |Gradle| 7.4.2
-|JUnit |
+|JUnit | 5.6.0
+|GSON.footnote:[Testing only] | 2.9.0
+
 |===
+
 

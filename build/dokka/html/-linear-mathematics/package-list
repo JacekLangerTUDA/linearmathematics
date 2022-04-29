@@ -1,0 +1,30 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:////PointingToDeclaration/-linear-mathematics/[root]/index.html
+$dokka.location:/Gauss///PointingToDeclaration/-linear-mathematics/[root]/-gauss/index.html
+$dokka.location:/Gauss/Gauss/#kotlin.Array[kotlin.DoubleArray]#kotlin.DoubleArray?/PointingToDeclaration/-linear-mathematics/[root]/-gauss/-gauss.html
+$dokka.location:/Gauss/getMatrix/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/get-matrix.html
+$dokka.location:/Gauss/getSolvingVector/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/get-solving-vector.html
+$dokka.location:/Gauss/invertMatrix/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/invert-matrix.html
+$dokka.location:/Gauss/setMatrix/#kotlin.Array[kotlin.DoubleArray]/PointingToDeclaration/-linear-mathematics/[root]/-gauss/set-matrix.html
+$dokka.location:/Gauss/setSolvingVector/#kotlin.DoubleArray?/PointingToDeclaration/-linear-mathematics/[root]/-gauss/set-solving-vector.html
+$dokka.location:/Gauss/solve/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/solve.html
+$dokka.location:/Gauss/solve/#kotlin.Array[kotlin.DoubleArray]#kotlin.DoubleArray/PointingToDeclaration/-linear-mathematics/[root]/-gauss/solve.html
+$dokka.location:/UnificationMatrix///PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/index.html
+$dokka.location:/UnificationMatrix/UnificationMatrix/#kotlin.Int/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/-unification-matrix.html
+$dokka.location:/UnificationMatrix/get/#kotlin.Int#kotlin.Int/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/get.html
+$dokka.location:/UnificationMatrix/get/#kotlin.Int/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/get.html
+$dokka.location:/UnificationMatrix/getData/#/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/get-data.html
+$dokka.location:/UnificationMatrix/set/#kotlin.Int#kotlin.DoubleArray/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/set.html
+$dokka.location:/UnificationMatrix/setData/#kotlin.Array[kotlin.DoubleArray]/PointingToDeclaration/-linear-mathematics/[root]/-unification-matrix/set-data.html
+$dokka.location:exceptions////PointingToDeclaration/-linear-mathematics/exceptions/index.html
+$dokka.location:exceptions/InvalidOperationException///PointingToDeclaration/-linear-mathematics/exceptions/-invalid-operation-exception/index.html
+$dokka.location:exceptions/InvalidOperationException/InvalidOperationException/#kotlin.String/PointingToDeclaration/-linear-mathematics/exceptions/-invalid-operation-exception/-invalid-operation-exception.html
+$dokka.location:exceptions/UnsolvableMatrixException///PointingToDeclaration/-linear-mathematics/exceptions/-unsolvable-matrix-exception/index.html
+$dokka.location:exceptions/UnsolvableMatrixException/UnsolvableMatrixException/#kotlin.String/PointingToDeclaration/-linear-mathematics/exceptions/-unsolvable-matrix-exception/-unsolvable-matrix-exception.html
+$dokka.location:kotlin/InvalidOperationException/getCause/#/PointingToDeclaration/-linear-mathematics/exceptions/-invalid-operation-exception/get-cause.html
+$dokka.location:kotlin/InvalidOperationException/getMessage/#/PointingToDeclaration/-linear-mathematics/exceptions/-invalid-operation-exception/get-message.html
+$dokka.location:kotlin/UnsolvableMatrixException/getCause/#/PointingToDeclaration/-linear-mathematics/exceptions/-unsolvable-matrix-exception/get-cause.html
+$dokka.location:kotlin/UnsolvableMatrixException/getMessage/#/PointingToDeclaration/-linear-mathematics/exceptions/-unsolvable-matrix-exception/get-message.html
+exceptions
+
