@@ -1,1 +1,1 @@
-include::dokumentation/Dokumentation.adoc[]
+![Dokumentation](dokumentation/Dokumentation.adoc)
