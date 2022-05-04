@@ -1,7 +1,7 @@
 import exceptions.InvalidOperationException
 import exceptions.UnsolvableMatrixException
 
-class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
+class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: DoubleArray?) {
 
     /**
      * Creates a new Gauss object.
@@ -21,13 +21,13 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
     /**
      * The result vector. this is a copy of the solving vector.
      */
-    private var resultVector: DoubleArray =
+    private val resultVector: DoubleArray =
         solvingVector?.copyOf() ?: DoubleArray(matrix.size)
 
     /**
      * Unification matrix of the same size as the matrix provided.
      */
-    private var unificationMatrix = UnificationMatrix(matrix.size)
+    private val unificationMatrix = UnificationMatrix(matrix.size)
 
     /**
      * Weather the matrix was solved or not.
@@ -93,7 +93,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      */
     private fun normalize() {
         for (i in 0 until matrix.size) {
-            var alpha = 1 / matrix[i][i]
+            val alpha = 1 / matrix[i][i]
             matrix[i][i] *= alpha
             if (resultVector != null)
                 resultVector[i] *= alpha
@@ -107,7 +107,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
     private fun iterateUp() {
 
         for (i in matrix.size - 1 downTo 1) {
-            var alpha = -1 / (matrix[i][i] / matrix[i - 1][i])
+            val alpha = -1 / (matrix[i][i] / matrix[i - 1][i])
 
             for (h in i - 1 downTo 0) {
                 if (solvingVector != null) {
@@ -158,7 +158,7 @@ class Gauss(var matrix: Array<DoubleArray>, var solvingVector: DoubleArray?) {
      * Swaps two rows
      */
     private fun pivot(current: Int, next: Int) {
-        var currentVals = matrix[current]
+        val currentVals = matrix[current]
         matrix[current] = matrix[next]
         matrix[next] = currentVals
     }
@@ -196,8 +196,8 @@ private fun Array<IntArray>.toDoubleMatrix(): Array<DoubleArray> {
 private operator fun DoubleArray.div(doubles: DoubleArray): Boolean {
 
     for (i in 0 until this.size) {
-        var a = this[i]
-        var b = doubles[i]
+        val a = this[i]
+        val b = doubles[i]
         if ((a % b).toInt() != 0)
             return false
     }
@@ -209,17 +209,38 @@ private operator fun DoubleArray.div(doubles: DoubleArray): Boolean {
  * @param alpha the multiplier
  * @return double array with all values multiplied by alpha.
  */
-private operator fun DoubleArray.times(alpha: Double): DoubleArray {
-    var temp = this.copyOf()
+operator fun DoubleArray.times(alpha: Double): DoubleArray {
+    val temp = this.copyOf()
     for (i in 0 until temp.size) {
         temp[i] *= alpha
     }
     return temp
 }
 
-private operator fun DoubleArray.plus(elements: DoubleArray): DoubleArray {
+operator fun DoubleArray.plus(elements: DoubleArray): DoubleArray {
 
     for (i in 0 until this.size)
         this[i] += elements[i]
     return this
+}
+
+operator fun Array<DoubleArray>.times(matrix: Array<DoubleArray>): Array<DoubleArray> {
+
+    val temp = Array<DoubleArray>(matrix.size) { DoubleArray(matrix[it].size) }
+
+    for (i in 0 until this.size) {
+        for (h in 0 until this.size) {
+            for (w in 0 until this[h].size) {
+                temp[i][h] += this[i][w] * matrix[w][h]
+            }
+        }
+    }
+    return temp
+}
+
+/**
+ * Extends [IntArray]. Convert to [DoubleArray].
+ */
+fun Array<IntArray>.toDoubleArray(): Array<DoubleArray> {
+    return Array(this.size) { i -> DoubleArray(this[i].size) { j -> this[i][j].toDouble() } }
 }

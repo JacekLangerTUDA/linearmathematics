@@ -1,6 +1,6 @@
 data class Testdata(
-    var matrix: Array<IntArray>,
-    var solvingVector: IntArray,
-    var resultVector: DoubleArray?,
-    var inverse: Array<DoubleArray>?
+    val matrix: Array<IntArray>,
+    val solvingVector: IntArray,
+    val resultVector: DoubleArray?,
+    val inverse: Array<DoubleArray>?
 )

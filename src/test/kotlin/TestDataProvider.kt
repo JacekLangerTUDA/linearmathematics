@@ -10,15 +10,19 @@ class TestDataProvider {
 
         @Throws(IOException::class)
         fun findAllData(path: Path = this.path): Array<Testdata>? {
-            var json = path.toFile().readText()
-            var gson = Gson()
+            val json = path.toFile().readText()
+            val gson = Gson()
             return gson.fromJson(json, Array<Testdata>::class.java)
         }
 
         fun saveToFile(data: Array<Testdata>) {
 
-            var json = Gson().toJson(data)
+            val json = Gson().toJson(data)
             path.toFile().writeText(json)
+        }
+
+        fun findFirstEntry(): Testdata {
+            return findAllData()!![0]
         }
     }
 }

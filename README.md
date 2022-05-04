@@ -39,11 +39,11 @@ Das Ergebnis dieser Operation ist ein Vektor.
 _Matrix Lösen, vollständige Instanzierung:_
 
 ````
-var matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
+val matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
 
-var vector = doubleArrayOf(5.0, 6.0)
+val vector = doubleArrayOf(5.0, 6.0)
 
-var result = Gauss(matrix,vector).solve()
+val result = Gauss(matrix,vector).solve()
 ````
 
 ### solve (Parameterisiert)
@@ -57,11 +57,11 @@ _Matrix Lösen:_
 
 ````
 
-var matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
+val matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
 
-var gauss = Gauss(matrix) var vector = doubleArrayOf(5.0, 6.0)
+val gauss = Gauss(matrix) val vector = doubleArrayOf(5.0, 6.0)
 
-var result = gauss().solve(matrix,vector)
+val result = gauss().solve(matrix,vector)
 
 ````
 
@@ -73,11 +73,11 @@ _Inverse einer Matrix generieren:_
 
 ````
 
-var matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
+val matrix = arrayOf(doubleArrayOf(2.0, 4.0), doubleArrayOf(2.0, 3.0))
 
-var vector = doubleArrayOf(5.0, 6.0)
+val vector = doubleArrayOf(5.0, 6.0)
 
-var inverse = Gauss(matrix,vector).invert()
+val inverse = Gauss(matrix,vector).invert()
 
 ````
 

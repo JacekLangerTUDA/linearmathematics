@@ -1,6 +1,6 @@
 class UnificationMatrix(size: Int) {
 
-    var data = Array<DoubleArray>(size) { i ->
+    val data = Array<DoubleArray>(size) { i ->
         DoubleArray(size) { w ->
             if (w == i) 1.0 else 0.0
         }
