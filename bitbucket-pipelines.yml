@@ -34,3 +34,20 @@ pipelines:
             name: Documentation
             script:
               - gradle clean dokkaHtml
+        # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
+        - step:
+            name: 'Deployment to Testing'
+            deployment: staging
+            script:
+              - gradle clean publishToMavenLocal
+        - step:
+            name: 'Deployment to Staging'
+            deployment: staging
+            script:
+              - gradle clean publishToMavenLocal
+        - step:
+            name: 'Deployment to Production'
+            deployment: production
+            trigger: 'manual'
+            script:
+              - gradle check clean build publish

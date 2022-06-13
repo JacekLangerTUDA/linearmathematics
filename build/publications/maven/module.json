@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "mts11.math.linearalgebra",
+    "module": "library",
+    "version": "1.0-SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "7.4.2"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "library-1.0-SNAPSHOT.jar",
+          "url": "library-1.0-SNAPSHOT.jar",
+          "size": 10555,
+          "sha512": "1263ac3fc0a6b25887c59c282215ed0dc558dc7b277d368e694ce30bed06d9bbad294b5e59e4a65c5c828e974b649cba39727d3fee85b82eb1e2dfd9dc526458",
+          "sha256": "d75ae8753b81eaa1fa6710f34f8692a81ee6b92b26c1d7d7c3efd1e193680b63",
+          "sha1": "44b187003a92d8025030551679b7608e50db9998",
+          "md5": "ea4e72cd6c8f72dc98186de69d714aea"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "com.google.code.gson",
+          "module": "gson",
+          "version": {
+            "requires": "2.9.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.6.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "library-1.0-SNAPSHOT.jar",
+          "url": "library-1.0-SNAPSHOT.jar",
+          "size": 10555,
+          "sha512": "1263ac3fc0a6b25887c59c282215ed0dc558dc7b277d368e694ce30bed06d9bbad294b5e59e4a65c5c828e974b649cba39727d3fee85b82eb1e2dfd9dc526458",
+          "sha256": "d75ae8753b81eaa1fa6710f34f8692a81ee6b92b26c1d7d7c3efd1e193680b63",
+          "sha1": "44b187003a92d8025030551679b7608e50db9998",
+          "md5": "ea4e72cd6c8f72dc98186de69d714aea"
+        }
+      ]
+    }
+  ]
+}

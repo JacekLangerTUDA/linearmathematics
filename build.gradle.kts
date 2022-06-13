@@ -5,6 +5,8 @@ plugins {
     id("org.jetbrains.dokka") version "1.6.21"
     pmd
     checkstyle
+    distribution
+    id("maven-publish")
 }
 
 group = "osz.imt.math"
@@ -36,4 +38,31 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
+}
+
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            url = uri("https://bitbucket.org/JacekLanger/linearmathematics/deployments/")
+//            url = uri(layout.buildDirectory.dir("repo"))
+        }
+    }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "mts11.math.linearalgebra"
+            artifactId = "library"
+            versionMapping {
+                usage("java-api") {
+                    fromResolutionOf("runtimeClasspath")
+                }
+                usage("java-runtime") {
+                    fromResolutionResult()
+                }
+            }
+
+            from(components["kotlin"])
+//            from(components["java"])
+        }
+    }
 }
