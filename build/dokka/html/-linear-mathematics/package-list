@@ -10,8 +10,7 @@ $dokka.location:/Gauss/Gauss/#kotlin.Array[kotlin.DoubleArray]#kotlin.DoubleArra
 $dokka.location:/Gauss/Gauss/#kotlin.Array[kotlin.IntArray]#kotlin.DoubleArray?/PointingToDeclaration/-linear-mathematics/[root]/-gauss/-gauss.html
 $dokka.location:/Gauss/Gauss/#kotlin.Array[kotlin.IntArray]#kotlin.IntArray?/PointingToDeclaration/-linear-mathematics/[root]/-gauss/-gauss.html
 $dokka.location:/Gauss/Gauss/#kotlin.Array[kotlin.IntArray]/PointingToDeclaration/-linear-mathematics/[root]/-gauss/-gauss.html
-$dokka.location:/Gauss/invertMatrix/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/invert-matrix.html
-$dokka.location:/Gauss/invertMatrix/#kotlin.Array[kotlin.IntArray]/PointingToDeclaration/-linear-mathematics/[root]/-gauss/invert-matrix.html
+$dokka.location:/Gauss/invertMatrix/#kotlin.Array[kotlin.DoubleArray]/PointingToDeclaration/-linear-mathematics/[root]/-gauss/invert-matrix.html
 $dokka.location:/Gauss/solve/#/PointingToDeclaration/-linear-mathematics/[root]/-gauss/solve.html
 $dokka.location:/Gauss/solve/#kotlin.Array[kotlin.DoubleArray]#kotlin.DoubleArray/PointingToDeclaration/-linear-mathematics/[root]/-gauss/solve.html
 $dokka.location:/Gauss/solve/#kotlin.Array[kotlin.IntArray]#kotlin.IntArray/PointingToDeclaration/-linear-mathematics/[root]/-gauss/solve.html
