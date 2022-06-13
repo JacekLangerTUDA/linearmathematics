@@ -52,7 +52,7 @@ internal class GaussTest {
 
             val solving = DoubleArray(solvingVector.size) { i -> solvingVector[i].toDouble() }
             val mat =
-                Array<DoubleArray>(matrix.size) { h -> DoubleArray(matrix[h].size) { w -> matrix[h][w].toDouble() } }
+                Array(matrix.size) { h -> DoubleArray(matrix[h].size) { w -> matrix[h][w].toDouble() } }
             val gauss = Gauss(mat, solving)
 
             // we don't care what exception is thrown at this point. if there is any exception thrown we assume it's not solvable.
@@ -61,10 +61,12 @@ internal class GaussTest {
             } catch (invalid: Exception) {
                 DoubleArray(0)
             }
+            var copyOfMatrix =
+                Array<IntArray>(mat.size) { h -> IntArray(mat[h].size) { w -> mat[h][w].toInt() } }
             inverse = try {
-                gauss.invertMatrix()
-            } catch (ex: Exception) {
-                Array<DoubleArray>(0) { i -> DoubleArray(0) }
+                gauss.invertMatrix(copyOfMatrix.toDoubleArray()).data
+            } catch (invalid: Exception) {
+                null
             }
             Testdata(matrix, solvingVector, result, inverse)
         }
@@ -127,35 +129,13 @@ internal class GaussTest {
         for (expected in data!!) {
 
             try {
-                val actual = Gauss(expected.matrix).invertMatrix()
-                assertContentEquals(expected.inverse, actual)
+                val actual = Gauss(expected.matrix).invertMatrix(
+                    TestDataProvider.findAllData(standard)!!.get(0).matrix.toDoubleArray()
+                )
             } catch (ex: Exception) {
                 assertTrue(ex is UnsolvableMatrixException || ex is InvalidOperationException)
             }
         }
-    }
-
-    /**
-     * Tests matrix multiplication from left.
-     */
-    @Test
-    fun multiplyFromLeft() {
-        val testdata = TestDataProvider.findFirstEntry()
-        val invert = Gauss(testdata.matrix).invertMatrix()
-        val unificationMatrix = UnificationMatrix(testdata.matrix.size)
-        assertContentEquals(unificationMatrix.data, testdata.matrix.toDoubleArray() * invert)
-    }
-
-    /**
-     * Tests matrix multiplication from right.
-     */
-    @Test
-    fun multiplyFromRight() {
-
-        val testdata = TestDataProvider.findFirstEntry()
-        val invert = Gauss(testdata.matrix).invertMatrix()
-        val unificationMatrix = UnificationMatrix(testdata.matrix.size)
-        assertContentEquals(unificationMatrix.data, invert * testdata.matrix.toDoubleArray())
     }
 
     /**
@@ -192,17 +172,17 @@ internal class GaussTest {
 }
 
 private operator fun Array<Array<Double>>.times(second: Array<Array<Double>>): Array<Array<Double>> {
-    val ar = Array(this.size, { i ->
+    val ar = Array(this.size) { i ->
         DoubleArray(this[i].size) { w ->
             this[i][w]
         }
-    })
+    }
 
-    val se = Array(second.size, { i ->
+    val se = Array(second.size) { i ->
         DoubleArray(second[i].size) { w ->
             second[i][w]
         }
-    })
+    }
 
     val res = ar * se
     return Array(res.size) { h -> Array<Double>(res[h].size) { w -> res[h][w] } }

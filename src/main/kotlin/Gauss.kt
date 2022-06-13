@@ -1,7 +1,10 @@
 import exceptions.InvalidOperationException
 import exceptions.UnsolvableMatrixException
 
-class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: DoubleArray?) {
+class Gauss(
+    private var matrix: Array<DoubleArray>,
+    private var solvingVector: DoubleArray?
+) {
 
     /**
      * Creates a new Gauss object.
@@ -27,7 +30,7 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
     /**
      * Unification matrix of the same size as the matrix provided.
      */
-    private val unificationMatrix = UnificationMatrix(matrix.size)
+    private val inverse = UnificationMatrix(matrix.size)
 
     /**
      * Weather the matrix was solved or not.
@@ -46,16 +49,6 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
         this.solvingVector = DoubleArray(vector.size) { i -> vector[i].toDouble() }
 
         return solve()
-    }
-
-    /**
-     * Inverts a matrix.
-     * @return the inverse matrix
-     */
-    fun invertMatrix(matrix: Array<IntArray>): Array<DoubleArray> {
-        this.matrix =
-            Array<DoubleArray>(matrix.size) { i -> DoubleArray(matrix[i].size) { v -> matrix[i][v].toDouble() } }
-        return invertMatrix()
     }
 
     /**
@@ -78,26 +71,64 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
             throw InvalidOperationException("This operation is not valid as no solving vector was provided.")
 
         if (matrix.size != resultVector.size || matrix.size != matrix[0].size) throw UnsolvableMatrixException(
-            "The matrix is not solvable due to a missmatch between the matrix rank and result vector rank"
+            "The matrix is not solvable due to a mismatch between the matrix rank and result vector rank"
         )
+        // create a deep copy of the matrix so we can keep the original matrix intact
+        var copy =
+            Array<DoubleArray>(matrix.size) { i -> DoubleArray(matrix[i].size) { v -> matrix[i][v] } }
 
+        invertMatrix(copy)
         iterateDown()
         iterateUp()
         normalize()
         wasNotSolved = false
+
         return resultVector
     }
 
+    fun invertMatrix(matrix: Array<DoubleArray>): UnificationMatrix {
+
+        // iterate over the matrix downwards
+        for (i in matrix.indices) {
+            // adjust the values in the result vector
+            var nextrow = i + 1
+            for (h in nextrow until matrix.size) {
+                val alpha = -1 / (matrix[i][i] / matrix[h][i])
+                // first iteration only we don't need to change the result
+                inverse[h] += inverse[i] * alpha
+                matrix[h] += matrix[i] * alpha
+            }
+        }
+
+        // iterate up
+        for (i in matrix.size - 1 downTo 1) {
+            val alpha = -1 / (matrix[i][i] / matrix[i - 1][i])
+            for (h in i - 1 downTo 0) {
+                matrix[h] += matrix[i] * alpha
+                inverse[h] += inverse[i] * alpha
+            }
+        }
+
+        // normalize matrix
+        for (i in matrix.indices) {
+            val alpha = 1 / matrix[i][i]
+            matrix[i][i] *= alpha
+            inverse[i] = inverse[i] * alpha
+        }
+
+        return inverse
+    }
+
     /**
-     * normalize the matrix, a normalized matrix after all iterations should resemble an unification matrix.
+     * Normalize the matrix, a normalized matrix after all iterations should resemble an unification matrix.
      */
     private fun normalize() {
-        for (i in 0 until matrix.size) {
+        for (i in matrix.indices) {
             val alpha = 1 / matrix[i][i]
             matrix[i][i] *= alpha
             if (resultVector != null)
                 resultVector[i] *= alpha
-            unificationMatrix[i] = unificationMatrix[i] * alpha
+            inverse[i] = inverse[i] * alpha
         }
     }
 
@@ -113,8 +144,6 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
                 if (solvingVector != null) {
                     resultVector[h] += resultVector[i] * alpha
                 }
-                unificationMatrix[h] += unificationMatrix[i] * alpha
-
                 matrix[h] += matrix[i] * alpha
             }
         }
@@ -126,28 +155,30 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
     @Throws(InvalidOperationException::class, UnsolvableMatrixException::class)
     private fun iterateDown() {
 
+        // iterate over the matrix
         for (i in 0 until matrix.size - 1) {
             // is the next row a multiple of the current row.
             if (matrix[i] / matrix[i + 1]) {
                 throw UnsolvableMatrixException("This Matrix is not solvable as the Rank of the matrix and rank of the solving Vector do not match.")
             }
 
-            // check if next row is preceded by 0
+            // check if row and next row is preceded by 0 if yes throw exception
             if (matrix[i][i] == 0.0) {
-                pivot(i, i + 1)
-                if (matrix[i][i] == 0.0)
+                if (matrix[i + 1][i] == 0.0) {
                     throw UnsolvableMatrixException("This Matrix is not solvable as the Rank of the matrix and rank of the solving Vector do not match.")
+                } else {
+                    pivot(i, i + 1)
+                }
             }
 
             // adjust the values in the result vector
             for (h in (i + 1) until matrix.size) {
                 val alpha = -1 / (matrix[i][i] / matrix[h][i])
-                // first iteration only we dont need to change the result
+                // first iteration only we don't need to change the result
 
                 if (solvingVector != null) {
                     resultVector[h] += resultVector[i] * alpha
                 }
-                unificationMatrix[h] += unificationMatrix[i] * alpha
 
                 matrix[h] += matrix[i] * alpha
             }
@@ -161,20 +192,6 @@ class Gauss(private var matrix: Array<DoubleArray>, private var solvingVector: D
         val currentVals = matrix[current]
         matrix[current] = matrix[next]
         matrix[next] = currentVals
-    }
-
-    /**
-     * Inverts the matrix using a unification matrix of the same size as the matrix itself.
-     */
-    fun invertMatrix(): Array<DoubleArray> {
-        if (wasNotSolved) {
-            if (matrix.size != matrix[0].size)
-                throw InvalidOperationException("This operation is not valid on the given matrix. Only a square matrix can be inverted")
-            iterateDown()
-            iterateDown()
-            normalize()
-        }
-        return unificationMatrix.data
     }
 }
 
@@ -211,7 +228,7 @@ private operator fun DoubleArray.div(doubles: DoubleArray): Boolean {
  */
 operator fun DoubleArray.times(alpha: Double): DoubleArray {
     val temp = this.copyOf()
-    for (i in 0 until temp.size) {
+    for (i in temp.indices) {
         temp[i] *= alpha
     }
     return temp
