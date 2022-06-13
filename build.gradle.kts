@@ -17,11 +17,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlin:kotlin-test:1.6.21")
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation("com.google.code.gson:gson:2.9.0")
 //    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.6.21")
-    implementation(kotlin("stdlib-jdk8"))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.21")
 }
 
 tasks.test {
@@ -43,26 +43,19 @@ compileTestKotlin.kotlinOptions {
 publishing {
     repositories {
         maven {
-            // change to point to your repo, e.g. http://my.org/repo
-            url = uri("https://bitbucket.org/JacekLanger/linearmathematics/deployments/")
-//            url = uri(layout.buildDirectory.dir("repo"))
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/JacekLangerTUDA/linearmathematics")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
         }
     }
     publications {
-        create<MavenPublication>("maven") {
-            groupId = "mts11.math.linearalgebra"
-            artifactId = "library"
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
-                }
+        publications {
+            register<MavenPublication>("gpr") {
+                from(components["java"])
             }
-
-            from(components["kotlin"])
-//            from(components["java"])
         }
     }
 }

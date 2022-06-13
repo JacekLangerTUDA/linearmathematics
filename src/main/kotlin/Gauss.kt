@@ -126,8 +126,7 @@ class Gauss(
         for (i in matrix.indices) {
             val alpha = 1 / matrix[i][i]
             matrix[i][i] *= alpha
-            if (resultVector != null)
-                resultVector[i] *= alpha
+            resultVector[i] *= alpha
             inverse[i] = inverse[i] * alpha
         }
     }
