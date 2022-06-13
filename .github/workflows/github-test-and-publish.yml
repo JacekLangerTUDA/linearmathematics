@@ -14,8 +14,8 @@ on:
       - main
       - release
       - release-*
-  release:
-    types: [ created ]
+#  release:
+#    types: [ created ]
 
 jobs:
   build:
